@@ -1,0 +1,79 @@
+ <script type="text/javascript" src="<%=basePath%>/js/jquery-1.4.3.js"></script>
+<script type="text/javascript">
+      $(function(){
+            //表示表单各项是否通过检查
+	        //通过检查设置true ，否则设置为false
+	        var checkflag={"userLoginName":false,"userPassWord":false,"codeNumber":false};
+	        
+            //点击涮新图片
+            $("#nosee").click(function(){
+			      $("#imgVcode").attr("src","<%=basePath%>/image.action?dt="+new Date().getTime());
+			});
+			//ajax检查
+			$("#textCodeNumber").blur(function(){
+				    //alert("222222");
+					//var num = $("#textCodeNumber").val();
+					//alert(num);
+					$.post("loginImageValidate.action",{"codeNumber":$("#textCodeNumber").val()},
+						function(ok){
+						//alert(ok);
+							if(ok){
+							//alert(ok);
+							    checkflag.codeNumber=true;
+							    $("#codeNumberValidateMsg").html("<img src='<%=basePath%>/images/login/check.gif'/><span style='color:green'>正确！</span>");
+							}else{
+								$("#codeNumberValidateMsg").html("<img src='<%=basePath%>/images/login/error.gif'/><span style='color:red'>有误！</span>");
+								$("#nosee").click();
+							}
+						}
+					);
+				});
+			   //userLoginName登录用户名检查
+	           $("#textUserLoginName").blur(function(){
+	              checkflag.userLoginName=false;
+	              var userLoginName=$("#textUserLoginName").val();
+	              $("#UserLoginNameValidateMsg").html("");
+	              if(userLoginName=="" || userLoginName == null){//非空检查
+	                 $("#UserLoginNameValidateMsg").html("<img src='<%=basePath%>/images/login/error.gif'/><span style='color:red'>登录名不能为空!<span>");
+	              }else{//userLoginName 登录用户名格式不正确
+	                 var pattern=/^[a-z0-9_-]{3,16}$/;
+	                 if(!pattern.test(userLoginName)){
+	                    $("#UserLoginNameValidateMsg").html("<img src='<%=basePath%>/images/login/error.gif'/><span style='color:red'>该登录名不存在！</span>");
+	                 }else{  //唯一性检查 ，发送ajax请求
+	                    $.post("loginNameValidate.action",{"userLoginName":userLoginName},
+		                    function(ok){
+	                           if(ok){
+	                           //alert(ok);
+	                                 checkflag.userLoginName=true;
+	                                 $("#UserLoginNameValidateMsg").html("<img src='<%=basePath%>/images/login/check.gif'/><span style='color:green'>登录名可以使用！</span>");
+	                           }else{
+	                                 $("#UserLoginNameValidateMsg").html("<img src='<%=basePath%>/images/login/error.gif'/><span style='color:red'>该登录名不存在！</span>");
+	                                 }
+	                         });
+	                   }
+	               }
+	            });
+			    //验证密码
+			    $("#textUserPassWord").blur(function(){
+		        checkflag.userPassWord=false;
+		            var userPassWord=$("#textUserPassWord").val();
+		            $("#userPassWordValidateMsg").html("");
+			        if(userPassWord=="" || userPassWord==null){
+			            $("#userPassWordValidateMsg").html("<img src='<%=basePath%>/images/login/error.gif'/><span style='color:red'>密码不能为空！</span>");
+			            return;
+			        }else{
+			            checkflag.userPassWord=true;
+			        }
+			   });
+			  //表单提交处理
+			  //form的onsubmit事件,
+			  //return true允许提交,否则阻止提交
+				$("#f").submit(function(){
+				   	        $("#textUserLoginName").blur();//触发email检查
+							$("#textUserPassWord").blur();
+							$("#textCodeNumber").blur();
+				   	return checkflag.userLoginName && checkflag.userPassWord && checkflag.codeNumber;
+				 });
+      });
+   
+    </script>

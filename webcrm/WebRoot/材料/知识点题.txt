@@ -1,0 +1,5 @@
+一、
+el表达式的隐含对象包括：pageScope，requestScope,sessionScope,applicationScope
+例如：$el会依次到pageScope，requestScope，sessionScope，applicationScope中寻找，直到找到为止。
+可以写成$的形式，即只在requestScope中查找hello
+二、
