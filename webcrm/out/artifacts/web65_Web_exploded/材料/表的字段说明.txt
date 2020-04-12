@@ -1,0 +1,211 @@
+主要的数据字段解释
+
+一、	客户信息。
+
+1.客户ID      CustomerID
+2.客户名称    CostomerName
+3.客户性质    CostomerNature
+4.客户类型    CustomerType
+5.客户级别    CustomerLevel
+6.客户公司网站CustomerCompanyWeb
+7.客户公司电话CustomerCompanyTelphone
+8.登记人       RecordPerson
+9.客户地址     CustomerAddress
+10.客户所属省份CustomerProvinces
+11.客户所属城市CustomerCity
+12.客户公司邮编CustomerCompanyCode
+13开户银行     DepositBank
+14.客户账户     CustomerAccount
+15.客户来源     CustomerSource
+16.备注信息     InformationRemark
+
+-------------------------------------------------------------------------------------------
+二、 找出外键
+红色标注
+
+三、	数据字典
+
+1、	数据字典分类          ( dictionarytype 表 )          (按字母排序的第五个表)
+分类Id           
+分类Id       	分类名
+1	企业类型-分类
+2	企业性质-分类
+3	开户银行-分类
+4	信息来源-分类
+5	客户满意度-分类
+
+-------------------------------------------------------------------------------------------
+
+3.数据字典数据            ( dictionarytype_info 表 )      (按字母排序的第六个表)
+字典ID	分类ID	数据信息名称
+1	1	服务业
+2	1	制造业
+3	1	
+4	1	
+5	1	
+6	1	
+7	1	
+8	1	
+9	1	其他
+10	1	国有企业
+11	2	私营企业
+12	2	外资企业
+13	2	合资企业
+14	2	
+15	2	
+16	2	
+17	2	
+18	2	
+19	2	
+20	2	其他
+21	3	中国银行
+22	3	工商银行
+23	3	农业银行
+24	3	中国银行
+25	33	建设银行
+26	3	招商银行
+27	3	
+28	3	
+29	3	
+30	3	其他 展销会
+31	4	网络
+32	4	商业活动
+33	4	
+34	4	
+35	4	
+36	4	
+37	4	
+38	4	
+39	4	
+40	4	
+41	5	其他
+42	5	非常满意
+43	5	满意
+44	5	不满意
+45	5	非常不满意
+46	5	
+47	5	
+48	5	
+49	5	
+50	5	其他
+
+-------------------------------------------------------------------------------------------
+
+客户级别             （customerlevel 表）     (按字母排序的第五个表)
+
+潜在客户：未成交 正在跟踪的客户
+普通客户：已经成交的客户
+Vip客户： 重点客户 大客户
+代理商：代理商，分销商
+合作伙伴：合作伙伴
+失效客户：失效客户
+
+一、客户级别表的设计
+
+级别idlevelId	  业务量business    客户级别 levelName
+Int		          Double（8,2）	    varchar	级别名称
+	
+
+-------------------------------------------------------------------------------------------
+
+客户信息（customerInfo 表）            (按字母排序的第三个表)
+1.	客户id    customerId
+2.	客户名称  customerName
+3.	客户性质  customerProperties
+4.	客户类型  customerType
+5.	客户级别  customerLevel
+6.	客户公司网址customerCompanyWebsize
+7.	客户公司电话customerCompanyPhone
+8.	登记人       register
+9.	客户地址     customerAddress
+10.	客户所属省份 customerProvinces
+11.	客户所属城市 customerCity
+12.	客户公司邮编 customerCode
+13.	开户银行     openBank
+14.	银行账号     bankAccount
+15.	客户来源     customerSource
+16.	备注信息     noteInformation
+
+红色为关联
+
+-------------------------------------------------------------------------------------------
+
+一 联系人信息  contactPersonInfo      (按字母排序的第二个表)
+
+联系人id     contactId
+客户id       customerId
+联系人姓名   contactName
+联系人性别   contactSex
+联系人生日   contactBirthday
+联系人职务   contactPost
+联系人办公电话      contactOffice Phone
+联系人个人手机号码  contactMobilePhone
+联系人邮箱     contactEmail
+联系人登记日期 contactRegistDate
+联系人QQ号码  contactQQNumber
+联系人备注    contactRemarks
+
+-------------------------------------------------------------------------------------------
+角色模块
+1.	角色信息表   （roleInfo）                (按字母排序的第八个表)
+
+（1）roleId    角色ID
+（2）roleName  角色名称
+
+demo：老板 ceo 总经理 部门经理 高级员工 普通员工 
+
+2.	 菜单信息表（menu Info）              (按字母排序的第七个表)
+
+（1）menuInfoId 菜单信息ID
+（2）menuInfoName 菜单信息名称
+
+Demo:客户信息，投诉信息、数据字典等
+
+3.	角色关系表（rolerelationship）             (按字母排序的第九个表)
+（1）roleRelationshipId 角色关系ID
+（2）roleId 角色id
+（3）menuInfoId 菜单信息ID
+（4）access    是否可访问
+
+-------------------------------------------------------------------------------------------
+用户模块
+一、	用户信息   userInfo                     (按字母排序的第十个表)
+用户编号   userId
+用户姓名   userName
+用户登录名 userLoginName
+用户密码   userPassWord
+用户手机   userTelphone
+用户邮箱   userEmail
+用户上级   userLeadId    （上级id就是上一级用户的用户id）
+用户角色   userRoleId  （角色id）
+
+-------------------------------------------------------------------------------------------
+
+客户投诉模块
+一、投诉信息  ComplainInfo         (按字母排序的第一个表)
+complainId            投诉Id
+userId                用户受理人Id （解决这次投诉的工作人员）
+customerId            客户Id（那个公司在投诉）
+complainPerson        投诉人
+complainTheme         投诉主题
+complainContent       投诉内容
+complainDate          投诉日期
+complainHandleWay     投诉处理办法
+complainStatus        投诉处理状态（新 处理中 完成）
+complainRemarkInfo    投诉备注信息
+customerSatisfaction  客户满意程度(满意 一般 不满意 非常不满意)
+红色为：关联
+PO类  映射文件 DAO接口和实现类
+
+
+
+
+
+
+
+
+
+
+
+
+
